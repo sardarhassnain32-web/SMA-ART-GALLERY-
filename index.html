@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMA | Unique Metal Sculptures</title>
+<style>
+:root {
+  --gold: #c9a45c;
+  --black: #101010;
+  --panel: #1b1b1b;
+  --cream: #f4ead5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--cream);
+  font-family: Georgia, serif;
+}
+header {
+  text-align: center;
+  padding: 45px 16px 30px;
+  border-bottom: 1px solid #5c4826;
+}
+.logo {
+  color: var(--gold);
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 8px;
+}
+.tagline {
+  margin-top: 12px;
+  color: #ddd0b5;
+  letter-spacing: 3px;
+  font: 12px Arial, sans-serif;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 18px;
+  border-bottom: 1px solid #29251d;
+  font: 13px Arial, sans-serif;
+  letter-spacing: 2px;
+}
+nav a { color: var(--gold); text-decoration: none; }
+.intro {
+  text-align: center;
+  padding: 55px 20px 30px;
+}
+h1 { color: var(--gold); font-size: 30px; font-weight: normal; }
+.intro p { color: #bdb4a4; line-height: 1.7; }
+.tools {
+  max-width: 950px;
+  margin: 20px auto;
+  padding: 0 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+input, select {
+  background: #202020;
+  border: 1px solid #66512c;
+  color: white;
+  padding: 13px;
+  border-radius: 3px;
+  flex: 1;
+  min-width: 150px;
+}
+.gallery {
+  max-width: 1100px;
+  margin: 30px auto 70px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+  gap: 22px;
+}
+.art {
+  background: var(--panel);
+  border: 1px solid #514126;
+  padding: 12px;
+  cursor: pointer;
+}
+.art img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  background: #292929;
+}
+.art h3 { color: var(--gold); font-weight: normal; }
+.art p { color: #bdb4a4; font: 13px Arial; line-height: 1.6; }
+.empty {
+  grid-column: 1/-1;
+  text-align: center;
+  color: #aaa;
+  padding: 40px 10px;
+}
+footer {
+  border-top: 1px solid #514126;
+  padding: 30px;
+  text-align: center;
+  color: #a99a7e;
+  font: 12px Arial;
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SMA</div>
+  <div class="tagline">A WORLD OF UNIQUE CREATIONS</div>
+</header>
+<nav>
+  <a href="#gallery">GALLERY</a>
+  <a href="#about">ABOUT SMA</a>
+</nav>
+<section class="intro" id="about">
+  <h1>Unique Metal Sculptures</h1>
+  <p>Art crafted with imagination, skill and passion.<br>
+  Every creation tells its own story.</p>
+</section>
+<div class="tools">
+  <input id="search" placeholder="Search artwork..." oninput="render()">
+  <select id="category" onchange="render()">
+    <option value="">All Categories</option>
+    <option>Metal Art</option>
+    <option>Wood Art</option>
+    <option>Vintage Art</option>
+    <option>Other Creations</option>
+  </select>
+</div>
+<main class="gallery" id="gallery">
+  <div class="empty">Welcome to SMA Art Gallery.<br>Our unique creations will appear here.</div>
+</main>
+<footer>
+  SMA · UNIQUE METAL SCULPTURES<br><br>
+  A WORLD OF UNIQUE CREATIONS
+</footer>
+<script>
+const artworks = [
+  {
+    title: "SMA Metal Flower",
+    category: "Metal Art",
+    description: "A handcrafted metal flower, made with creativity and care.",
+    image: ""
+  },
+  {
+    title: "SMA Piston Watch",
+    category: "Metal Art",
+    description: "An industrial-inspired handmade timepiece.",
+    image: ""
+  }
+];
+
+function render() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const category = document.getElementById("category").value;
+  const list = artworks.filter(item =>
+    (item.title + " " + item.description).toLowerCase().includes(query) &&
+    (!category || item.category === category)
+  );
+  const gallery = document.getElementById("gallery");
+  if (!list.length) {
+    gallery.innerHTML = '<div class="empty">No artwork found.</div>';
+    return;
+  }
+  gallery.innerHTML = list.map(item => `
+    <article class="art">
+      <img src="${item.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23202020%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 fill=%22%23c9a45c%22 text-anchor=%22middle%22 font-size=%2224%22%3ESMA ART%3C/text%3E%3C/svg%3E'}" alt="${item.title}">
+      <h3>${item.title}</h3>
+      <p>${item.category}</p>
+      <p>${item.description}</p>
+    </article>
+  `).join("");
+}
+render();
+</script>
+</body>
+</html>
